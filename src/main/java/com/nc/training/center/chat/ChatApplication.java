@@ -12,14 +12,11 @@ public class ChatApplication {
     private final static Logger LOGGER = LoggerFactory.getLogger(ChatApplication.class);
 
     public static void main(String[] args) {
-
         SpringApplication.run(ChatApplication.class, args);
-    }
-
+}
 //    пример логирования
-    @PostConstruct
-    public void foo(){
-        LOGGER.info("пример логирования");
-    }
-
+        @PostConstruct
+        public void foo(){
+         LOGGER.info("пример логирования");
+        }
 }
