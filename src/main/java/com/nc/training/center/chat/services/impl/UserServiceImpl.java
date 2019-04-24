@@ -1,55 +1,42 @@
 package com.nc.training.center.chat.services.impl;
 
+import com.google.common.hash.Hashing;
+import com.nc.training.center.chat.domains.Role;
 import com.nc.training.center.chat.domains.User;
+import com.nc.training.center.chat.repositories.UserRepository;
 import com.nc.training.center.chat.services.api.UserService;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 
 @Service
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
-    private String name;
-    private String info;
-    private boolean connected = false;
-    private static Map<Long , User> userRepo = new HashMap<>();
-    private static List<String> messageRepo = new ArrayList<>();
+    private final UserRepository userRepo;
 
     @Override
-    public void retrieveMessage(String message) throws RemoteException {
+    public User findByUserNameAndPassword(String login, String password) {
+        String encPass = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString().toUpperCase();
+        return userRepo.findByLoginAndPassword(login, encPass).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
     }
 
     @Override
-    public void connect(User user) throws RemoteException {
-        if(connected==false) {
-            userRepo.put(user.getId(), user);
-            connected=true;
+    public User create(String login, String password, byte age, LocalDate birthday) {
+        if (userRepo.existsByLogin(login)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
-    }
-
-    @Override
-    public void disconnect(User user) throws RemoteException {
-        if(connected == true) {
-            connected=false;
-            userRepo.remove(user.getId(), user);
-        }
-    }
-
-    @Override
-    public void send() throws RemoteException {
-
-    }
-
-    @Override
-    public String getName() throws RemoteException {
-        return null;
-    }
-
-    @Override
-    public String getInfo() throws RemoteException {
-        return null;
+        String encPass = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString().toUpperCase();
+        User createUser = new User();
+        createUser.setLogin(login);
+        createUser.setAge(age);
+        createUser.setBirthday(birthday);
+        createUser.setRole(Role.USER);
+        createUser.setRegistrationDay(LocalDate.now());
+        createUser.setPassword(encPass);
+        return userRepo.save(createUser);
     }
 }

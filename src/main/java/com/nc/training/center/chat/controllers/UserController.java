@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 @Controller
-public class AccountController {
+public class UserController {
     @Autowired
     UserService userService;
     @GetMapping("/foo")

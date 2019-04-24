@@ -2,21 +2,11 @@ package com.nc.training.center.chat.services.api;
 
 import com.nc.training.center.chat.domains.User;
 
-import java.rmi.RemoteException;
+import java.time.LocalDate;
 
 public interface UserService {
 
-    void retrieveMessage(String message) throws RemoteException;//получать сообщения других пользователей
+    User findByUserNameAndPassword(String login, String password);
 
-    void connect(User user) throws RemoteException;
-
-    void disconnect(User user) throws RemoteException;
-
-    void send() throws RemoteException;
-
-    String getName() throws RemoteException;
-
-    String getInfo() throws RemoteException;
-
-    //ChatServerInterface getChatServer() throws RemoteException;
+    User create(String login, String password, byte age, LocalDate birthday);
 }

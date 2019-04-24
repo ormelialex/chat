@@ -1,4 +1,3 @@
 package com.nc.training.center.chat.domains;
 
-public class GroupChat {
-}
+public enum Role {ADMIN, USER}
