@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+</head>
+<body>
+<h1>Login Form</h1>
+<p th:if="${invalidCredentials}" class="error">Invalid Login or Password</p>
+    <form th:action="@{/login}" th:object="${loginForm}" method="post"><br>
+        <label for="login">Login</label>
+        <input type="text" id="login" name="login" autofocus="autofocus"/>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" autofocus="autofocus"/>
+        </br>
+        <input type="submit" value="Log In"/>
+
+    </form>
+</body>
+</html>

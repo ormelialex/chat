@@ -23,7 +23,8 @@ public class MainConfiguration extends WebSecurityConfigurerAdapter {
     /**
      * Endpoint mapping for authentication by login.
      */
-    private static final String AUTH_ENDPOINT = "/api/users/auth";
+    //private static final String AUTH_ENDPOINT = "/api/users/auth";
+    private static final String AUTH_ENDPOINT = "/login";
     /**
      * Endpoint mapping for authentication by login.
      */
@@ -69,7 +70,7 @@ public class MainConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "http://127.0.0.1"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080", "http://127.0.0.1"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         configuration.setAllowedHeaders(Collections.singletonList("*"));
         configuration.setAllowCredentials(true);
