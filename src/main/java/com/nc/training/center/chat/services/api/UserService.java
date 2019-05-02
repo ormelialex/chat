@@ -8,7 +8,7 @@ public interface UserService {
 
     User findByUserNameAndPassword(String login, String password);
 
-    User create(String login, String password, byte age, LocalDate birthday);
+    void create(String login, String password, LocalDate birthday, byte age);
 
     User getUserByLogin(String login);
 

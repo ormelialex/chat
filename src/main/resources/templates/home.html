@@ -8,5 +8,9 @@
 <h1>====================</h1>
 <h1>This is welcome Page</h1>
 <h1>====================</h1>
+<h2 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h2>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
 </body>
 </html>

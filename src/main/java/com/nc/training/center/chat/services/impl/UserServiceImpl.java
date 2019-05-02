@@ -6,7 +6,11 @@ import com.nc.training.center.chat.domains.User;
 import com.nc.training.center.chat.repositories.UserRepository;
 import com.nc.training.center.chat.services.api.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -15,8 +19,9 @@ import java.time.LocalDate;
 
 @Service
 @AllArgsConstructor
-public class UserServiceImpl implements UserService {
-    private final UserRepository userRepo;
+public class UserServiceImpl implements UserService,UserDetailsService {
+    @Autowired
+    private UserRepository userRepo;
 
     @Override
     public User findByUserNameAndPassword(String login, String password) {
@@ -34,7 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User create(String login, String password, byte age, LocalDate birthday) {
+    public void create(String login, String password, LocalDate birthday, byte age) {
         if (userRepo.existsByLogin(login)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
@@ -46,6 +51,11 @@ public class UserServiceImpl implements UserService {
         createUser.setRole(Role.USER);
         createUser.setRegistrationDay(LocalDate.now());
         createUser.setPassword(encPass);
-        return userRepo.save(createUser);
+        saveUser(createUser);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return userRepo.findByLogin(s);
     }
 }

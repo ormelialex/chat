@@ -22,8 +22,7 @@ public class UserController {
     UserService userService;
     //to get login form page
 
-
-    /*@GetMapping("/login")
+    @GetMapping("/login")
     public String redirectError(@RequestParam(name="msg",defaultValue = "no") String msg, Model model){
         if(msg.equals("failure")){
             model.addAttribute("error","Неправильный логин или пароль!!!");
@@ -34,7 +33,7 @@ public class UserController {
         return "login";
     }
 
-    //checking login credentials
+/*    //checking login credentials
     @PostMapping("/login")
     public String login(User user, Model model){
         User userFromDb=userService.getUserByLogin(user.getLogin());
