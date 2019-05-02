@@ -6,8 +6,8 @@
 </head>
 <body>
 <h1>Login Form</h1>
-<p th:if="${invalidCredentials}" class="error">Invalid Login or Password</p>
-    <form th:action="@{/login}" th:object="${loginForm}" method="post"><br>
+<p th:if="${error!=''}" th:text="${error}" id="message"></p>
+    <form th:action="@{/login}" method="post"><br>
         <label for="login">Login</label>
         <input type="text" id="login" name="login" autofocus="autofocus"/>
 

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="~/static/css/Main.css" th:href="@{/css/Main.css}" rel="stylesheet" />
+    <link href="~/static/css/Registration.css" th:href="@{/css/Registration.css}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <title>Registration Page</title>
+</head>
+<body>
+<h1>Registration Form</h1>
+<form th:action="@{/registration}" method="post"><br>
+    <h3>Регистрация</h3>
+    <p th:if="${message}" id="message">Данный логин уже используется</p>
+    <div class="form-row">
+        <input type="text" name="login" id="login" th:if="${user!=null}" th:value="${user.getLogin()}" required autocomplete="off"><label  th:if="${user!=null}" for="login">Логин</label>
+        <input type="text" name="login" id="login1" th:if="${user==null}" required autocomplete="off"><label for="login1" th:if="${user==null}">Логин</label>
+    </div>
+    <div class="form-row">
+        <input type="password" name="password" id="password" pattern=".{8,}"   required title="8 символов  минимум"><label for="password">Пароль</label>
+    </div>
+    <div class="form-row">
+        <input type="date" name="birthday" th:if="${user!=null}" th:value="${user.getBirthday()}" id="birthday"><label th:if="${user!=null}" id="specialLabel1" for="birthday">Дата рождения</label>
+        <input type="date" name="birthday" th:if="${user==null}"  id="birthday1"><label id="specialLabel" for="birthday1" th:if="${user==null}">Дата рождения</label>
+    </div>
+    <div class="form-row">
+        <input type="number" name="age" th:if="${user!=null}" th:value="${user.getAge()}" id="age"><label th:if="${user!=null}" id="specialLabel2" for="age">Возраст</label>
+        <input type="number" name="age" th:if="${user==null}"  id="age1"><label id="specialLabe2" for="age1" th:if="${user==null}">Возраст</label>
+    </div>
+    <p><input type="submit" value="Зарегистрироваться"></p>
+</form>
+</body>
+</html>

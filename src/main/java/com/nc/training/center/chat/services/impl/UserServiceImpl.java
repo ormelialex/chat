@@ -21,7 +21,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUserNameAndPassword(String login, String password) {
         String encPass = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString().toUpperCase();
-        return userRepo.findByLoginAndPassword(login, encPass).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
+        return userRepo.findByLoginAndPassword(login, encPass);
+    }
+
+    @Override
+    public User getUserByLogin(String login){
+        return userRepo.findByLogin(login);
+    }
+
+    public User saveUser(User user){
+        return userRepo.save(user);
     }
 
     @Override

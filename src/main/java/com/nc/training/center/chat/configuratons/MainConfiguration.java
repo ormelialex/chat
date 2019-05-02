@@ -6,6 +6,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -28,7 +29,7 @@ public class MainConfiguration extends WebSecurityConfigurerAdapter {
     /**
      * Endpoint mapping for authentication by login.
      */
-    private static final String REGISTRATION_ENDPOINT = "/api/users/registration";
+    private static final String REGISTRATION_ENDPOINT = "/registration";
     /**
      * Endpoint mapping for authentication's cookie deleting.
      */
@@ -43,23 +44,30 @@ public class MainConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .cors().and()
-                .exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.FORBIDDEN))
+                .cors()
                 .and()
-                .authorizeRequests()
-                .regexMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers(AUTH_ENDPOINT).permitAll()
-                .antMatchers(MAIN_PAGE).permitAll()
-                .antMatchers(REGISTRATION_ENDPOINT).permitAll()
-                .antMatchers("/h2-console").permitAll()
-                .anyRequest().fullyAuthenticated()
+                    .exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.FORBIDDEN))
                 .and()
-                .logout()
-                .logoutUrl(LOGOUT_ENDPOINT)
-                .logoutSuccessUrl("/")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .clearAuthentication(true);
+                    .authorizeRequests()
+                    .regexMatchers(HttpMethod.OPTIONS).permitAll()
+                    .antMatchers(AUTH_ENDPOINT).permitAll()
+                    .antMatchers(MAIN_PAGE).permitAll()
+                    .antMatchers(REGISTRATION_ENDPOINT).permitAll()
+                    .antMatchers("/h2-console","/h2-console/*","/h2-console/**").permitAll()
+                    .anyRequest().fullyAuthenticated()
+                .and()
+                    .formLogin()
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/")
+                    .failureHandler(customAuthenticationFailureHandler())
+                    .permitAll()
+                .and()
+                    .logout()
+                    .logoutUrl(LOGOUT_ENDPOINT)
+                    .logoutSuccessUrl("/")
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID")
+                    .clearAuthentication(true);
     }
 
     /**
@@ -77,5 +85,10 @@ public class MainConfiguration extends WebSecurityConfigurerAdapter {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+
+    @Bean
+    public AuthenticationFailureHandler customAuthenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
     }
 }
