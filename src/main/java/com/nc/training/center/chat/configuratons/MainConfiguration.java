@@ -108,9 +108,8 @@ public class MainConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService)
-                .passwordEncoder(bCryptPasswordEncoder());
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
     }
 
 }

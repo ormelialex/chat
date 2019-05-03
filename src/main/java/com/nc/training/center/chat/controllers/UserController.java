@@ -1,16 +1,17 @@
 package com.nc.training.center.chat.controllers;
 
-import com.google.common.hash.Hashing;
 import com.nc.training.center.chat.domains.Role;
 import com.nc.training.center.chat.domains.User;
 import com.nc.training.center.chat.repositories.UserRepository;
 import com.nc.training.center.chat.services.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 
 
@@ -21,6 +22,8 @@ public class UserController {
     @Autowired
     UserService userService;
     //to get login form page
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping("/login")
     public String redirectError(@RequestParam(name="msg",defaultValue = "no") String msg, Model model){
@@ -32,18 +35,6 @@ public class UserController {
         }
         return "login";
     }
-
-/*    //checking login credentials
-    @PostMapping("/login")
-    public String login(User user, Model model){
-        User userFromDb=userService.getUserByLogin(user.getLogin());
-        if (user.equals(userFromDb)){
-            //if data is correct
-            return "home";
-        }
-        return "login";
-    }*/
-
 
     @GetMapping("/registration")
     public String registration(Model model){
@@ -59,10 +50,13 @@ public class UserController {
             model.addAttribute("user",user);
             return "registration";
         }
-        user.setPassword(Hashing.sha256().hashString(user.getPassword(), StandardCharsets.UTF_8).toString().toUpperCase());
+        //PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        //user.setPassword(passwordEncoder.encode(user.getPassword()));
+        //user.setPassword(Hashing.sha256().hashString(user.getPassword(), StandardCharsets.UTF_8).toString().toUpperCase());
         user.setRole(Role.USER);
         user.setRegistrationDay(LocalDate.now());
-        userService.saveUser(user);
+        userRepo.save(user);
         model.addAttribute("success","Вы успешно зарегистрировались!!!");
         return "home";
     }

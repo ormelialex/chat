@@ -12,6 +12,4 @@ public interface UserService {
 
     User getUserByLogin(String login);
 
-    User saveUser(User user);
-
 }
