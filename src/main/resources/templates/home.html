@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Home Page</title>
@@ -7,8 +7,11 @@
 <body>
 <h1>====================</h1>
 <h1>This is welcome Page</h1>
+<div th:if="${success}">
+    Registration success.
+</div>
 <h1>====================</h1>
-<h2 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h2>
+<h2 th:inline="text" th:if="${user!=null}">Hello man!</h2>
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>

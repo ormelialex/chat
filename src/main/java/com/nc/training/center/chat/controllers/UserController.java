@@ -61,4 +61,11 @@ public class UserController {
         return "home";
     }
 
+    @GetMapping("/home")
+    public String home(User user,Model model){
+        model.addAttribute("request","/home");
+        model.addAttribute("user",user);
+        return "home";
+    }
+
 }

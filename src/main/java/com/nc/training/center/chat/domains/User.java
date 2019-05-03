@@ -22,7 +22,7 @@ import java.util.List;
     @Setter(AccessLevel.NONE)
     private Long id;
     private String login;
-    @Column(length = 70)
+    @Column(length = 60)
     private String password;
     private byte age;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -37,8 +37,8 @@ import java.util.List;
     public Collection<? extends GrantedAuthority> getRoles() {
         List<GrantedAuthority> list = new ArrayList<>();
 
-        list.add(new SimpleGrantedAuthority("ROLE_" + Role.USER));
-        list.add(new SimpleGrantedAuthority("ROLE_" + Role.ADMIN));
+        list.add(new SimpleGrantedAuthority(Role.USER.toString()));
+        list.add(new SimpleGrantedAuthority(Role.ADMIN.toString()));
         return list;
     }
 }
