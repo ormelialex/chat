@@ -65,7 +65,7 @@ public class MainConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                     .formLogin()
                     .loginPage("/login")
-                    .defaultSuccessUrl("/")
+                    .defaultSuccessUrl("/home")
                     .failureHandler(customAuthenticationFailureHandler())
                     .permitAll()
                 .and()
