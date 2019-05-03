@@ -2,9 +2,14 @@ package com.nc.training.center.chat.domains;
 
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,6 +33,14 @@ import java.time.LocalDate;
     private Collection<Role> roles;*/
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    public Collection<? extends GrantedAuthority> getRoles() {
+        List<GrantedAuthority> list = new ArrayList<>();
+
+        list.add(new SimpleGrantedAuthority("ROLE_" + Role.USER));
+        list.add(new SimpleGrantedAuthority("ROLE_" + Role.ADMIN));
+        return list;
+    }
 }
 
 
