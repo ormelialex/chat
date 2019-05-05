@@ -1,19 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Home Page</title>
 </head>
 <body>
 <h1>====================</h1>
-<h1>This is welcome Page</h1>
+<h1>This is Home Page</h1>
 <div th:if="${success}">
     Registration success.
 </div>
 <h1>====================</h1>
-<h2 th:inline="text" th:if="${user!=null}">Hello man!</h2>
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
+<table th:if="${users!=null}" border="1" bordercolor="black">
+    <tr>
+        <th>All Users</th>
+        <th></th>
+    </tr>
+    <tr th:each="user:${users}">
+        <td th:text="${user.getLogin()}" align="center"></td>
+        <!--<td> Кнопка написать сообщение
+            <form th:action="@{/cancelOrder}" method="post" onsubmit="return confirm('Подтвердить выполнение действия?');">
+                <input type="hidden" th:value="${order.getOrder_id()}" name="idOrder">
+                <input type="submit" value="Отмена бронирования">
+            </form>
+        </td>-->
+    </tr>
+</table>
+<h1>====================</h1>
+<!--<form th:action="@{/logout}" method="POST">
+    <input type="submit" value="Logout"/>
+</form>-->
+<a sec:authorize="isAuthenticated()" th:href="@{/logout}">Выйти</a>
 </body>
 </html>

@@ -62,9 +62,9 @@ public class UserController {
     }
 
     @GetMapping("/home")
-    public String home(User user,Model model){
-        model.addAttribute("request","/home");
-        model.addAttribute("user",user);
+    //@PreAuthorize("hasAuthority('USER')")
+    public String home(Model model){
+        model.addAttribute("users",userService.getAllUsers());
         return "home";
     }
 

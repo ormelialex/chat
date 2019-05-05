@@ -12,4 +12,6 @@ public interface UserService {
 
     User getUserByLogin(String login);
 
+    Iterable<User> getAllUsers();
+
 }

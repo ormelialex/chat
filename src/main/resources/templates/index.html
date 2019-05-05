@@ -1,13 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Index Page</title>
+    <title>Index</title>
 </head>
 <body>
 <h1>Welcome to chat</h1>
-<a th:href="@{/home}">Home Page>></a><br>
-<a th:href="@{/login}">Log In>></a><br>
+<div class="links">
+<a sec:authorize="isAuthenticated()" th:href="@{/home}">Home Page>></a><br>
+<a sec:authorize="isAnonymous()"  th:href="@{/login}">Log In>></a><br>
 <a th:href="@{/registration}">Registry>></a>
+</div>
+<h1>=========================</h1>
 </body>
 </html>

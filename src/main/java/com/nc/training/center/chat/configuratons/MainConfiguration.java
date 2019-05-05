@@ -40,7 +40,7 @@ public class MainConfiguration extends WebSecurityConfigurerAdapter {
     /**
      * Endpoint mapping for authentication's cookie deleting.
      */
-    private static final String LOGOUT_ENDPOINT = "/api/logout";
+    private static final String LOGOUT_ENDPOINT = "/logout";
     /**
      * Configure endpoint's whitelist and logout logic.
      *
