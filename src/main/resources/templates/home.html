@@ -7,6 +7,7 @@
 <body>
 <h1>====================</h1>
 <h1>This is Home Page</h1>
+<div>Hello, <strong th:text="${lk.getUsername()}"></strong> !</div>
 <div th:if="${success}">
     Registration success.
 </div>
@@ -19,7 +20,7 @@
     <tr th:each="user:${users}">
         <td th:text="${user.getLogin()}" align="center"></td>
         <!--<td> Кнопка написать сообщение
-            <form th:action="@{/cancelOrder}" method="post" onsubmit="return confirm('Подтвердить выполнение действия?');">
+            <form th:action="@{/privateChat}" method="post" onsubmit="return confirm('Подтвердить выполнение действия?');">
                 <input type="hidden" th:value="${order.getOrder_id()}" name="idOrder">
                 <input type="submit" value="Отмена бронирования">
             </form>
@@ -30,6 +31,6 @@
 <!--<form th:action="@{/logout}" method="POST">
     <input type="submit" value="Logout"/>
 </form>-->
-<a sec:authorize="isAuthenticated()" th:href="@{/logout}">Выйти</a>
+<a sec:authorize="isAuthenticated()" th:href="@{/logout}">Log out</a>
 </body>
 </html>

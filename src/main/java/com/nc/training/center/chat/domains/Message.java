@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Data
 @Entity
-
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

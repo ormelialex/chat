@@ -4,7 +4,9 @@ import com.nc.training.center.chat.domains.Role;
 import com.nc.training.center.chat.domains.User;
 import com.nc.training.center.chat.repositories.UserRepository;
 import com.nc.training.center.chat.services.api.UserService;
+import com.nc.training.center.chat.services.impl.UserDetailImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -64,6 +66,8 @@ public class UserController {
     @GetMapping("/home")
     //@PreAuthorize("hasAuthority('USER')")
     public String home(Model model){
+        UserDetailImpl user = (UserDetailImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("lk",user);
         model.addAttribute("users",userService.getAllUsers());
         return "home";
     }
