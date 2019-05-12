@@ -46,8 +46,6 @@ public class UserServiceImpl implements UserService,UserDetailsService {
         if (userRepo.existsByLogin(login)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
-        //String encPass = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString().toUpperCase();
-        //PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         User createUser = new User();
         createUser.setLogin(login);
         createUser.setAge(age);

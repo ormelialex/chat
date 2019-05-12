@@ -1,31 +1,36 @@
 package com.nc.training.center.chat.controllers;
 
+import com.nc.training.center.chat.domains.Message;
+import com.nc.training.center.chat.repositories.MessageRepository;
+import com.nc.training.center.chat.services.api.MessageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.time.LocalDateTime;
 
 @Controller
 public class MessageController {
-/*    @Autowired
+    @Autowired
     MessageRepository messageRepo;
     @Autowired
     MessageService messageService;
+    /*@Autowired
+    ChatService chatService;*/
 
     @GetMapping("/privateChat")
-    public String registration(Model model){
+    public String privateChat(Model model){
         model.addAttribute("chat","/privateChat");
         return "privateChat";
-    }*/
-//(usersFromDB.get(0) == userList.get(0)) && (usersFromDB.get(1) == userList.get(1)) || (usersFromDB.get(0) == userList.get(1)) && (usersFromDB.get(1) == userList.get(0))
-    /*@PostMapping("/privateChat")
-    public String addMessage(User user1, User user2, Message message, Model model){
-        List<User> userList = new ArrayList<User>();
-        Chat chatFromDb = chatService.getChatByUsers(user1,user2);
-        if(chatFromDb!=null) {
-            добавить сообщение в чат
-        }
-        else{
-        создать чат и добавить сообщение в чат
-        }
+    }
+
+    @PostMapping("/privateChat")
+    public String addMessage(Message message, Model model){
+        message.setSendDate(LocalDateTime.now());
+        messageRepo.saveAndFlush(message);
         model.addAttribute("sended","Вы успешно отправили сообщение!!!");
-        return "home";
-    }*/
+        return "privateChat";
+    }
 }
