@@ -1,12 +1,9 @@
 package com.nc.training.center.chat.controllers;
 
-import com.nc.training.center.chat.domains.Role;
 import com.nc.training.center.chat.domains.User;
-import com.nc.training.center.chat.repositories.UserRepository;
 import com.nc.training.center.chat.services.api.UserService;
-import com.nc.training.center.chat.services.impl.UserDetailImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,16 +11,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDate;
+;
 
 
 @Controller
 public class UserController {
-    @Autowired
-    UserRepository userRepo;
+/*    @Autowired
+    UserRepository userRepo;*/
     @Autowired
     UserService userService;
-    //to get login form page
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -52,22 +48,21 @@ public class UserController {
             model.addAttribute("user",user);
             return "registration";
         }
-        //PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        //user.setPassword(passwordEncoder.encode(user.getPassword()));
-        //user.setPassword(Hashing.sha256().hashString(user.getPassword(), StandardCharsets.UTF_8).toString().toUpperCase());
+
+        /*user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRole(Role.USER);
         user.setRegistrationDay(LocalDate.now());
-        userRepo.save(user);
+        userRepo.save(user);*/
+        userService.create(user.getLogin(),user.getPassword(),user.getBirthday(),user.getAge());
         model.addAttribute("success","Вы успешно зарегистрировались!!!");
         return "home";
     }
 
     @GetMapping("/home")
     //@PreAuthorize("hasAuthority('USER')")
-    public String home(Model model){
-        UserDetailImpl user = (UserDetailImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("lk",user);
+    public String home(@AuthenticationPrincipal User activeUser, Model model){
+        //UserDetailImpl user = (UserDetailImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("lk",activeUser);
         model.addAttribute("users",userService.getAllUsers());
         return "home";
     }
