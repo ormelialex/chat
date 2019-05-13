@@ -15,6 +15,4 @@ public interface MessageRepository extends JpaRepository<Message,Long> {
 
     Iterable<Message> findAllByChat(Chat chat);
 
-    void saveToChat(Message message,Chat chat);
-
 }

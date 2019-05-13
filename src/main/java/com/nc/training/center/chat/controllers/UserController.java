@@ -11,9 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-;
-
-
 @Controller
 public class UserController {
 /*    @Autowired
@@ -48,11 +45,6 @@ public class UserController {
             model.addAttribute("user",user);
             return "registration";
         }
-
-        /*user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRole(Role.USER);
-        user.setRegistrationDay(LocalDate.now());
-        userRepo.save(user);*/
         userService.create(user.getLogin(),user.getPassword(),user.getBirthday(),user.getAge());
         model.addAttribute("success","Вы успешно зарегистрировались!!!");
         return "home";
