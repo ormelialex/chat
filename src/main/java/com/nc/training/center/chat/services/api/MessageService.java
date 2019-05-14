@@ -12,6 +12,6 @@ public interface MessageService {
 
     Message getMessageByRecipient(User recipient);
 
-    Iterable<Message> getAllMessagesFromChat(String sender,String recipient);
+    Iterable<Message> getAllMessagesFromPrivateChat(String sender,String recipient);
 
 }

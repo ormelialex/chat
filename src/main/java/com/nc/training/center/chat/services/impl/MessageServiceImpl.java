@@ -49,7 +49,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Iterable<Message> getAllMessagesFromChat(String senderMessage,String recipientMessage) {
+    public Iterable<Message> getAllMessagesFromPrivateChat(String senderMessage,String recipientMessage) {
         /*
         Message message1 = new Message();
         message1.setSendDate(LocalDateTime.now());

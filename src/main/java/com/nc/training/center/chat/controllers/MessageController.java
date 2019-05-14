@@ -23,7 +23,7 @@ public class MessageController {
     public String privateChat(@PathVariable String login, @AuthenticationPrincipal org.springframework.security.core.userdetails.User activeUser,Model model){
         model.addAttribute("sender",activeUser.getUsername());
         model.addAttribute("recipient",login);
-        model.addAttribute("messages",messageService.getAllMessagesFromChat(activeUser.getUsername(),login));
+        model.addAttribute("messages",messageService.getAllMessagesFromPrivateChat(activeUser.getUsername(),login));
         return "privateChat";
     }
 
