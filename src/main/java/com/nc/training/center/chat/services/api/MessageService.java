@@ -8,10 +8,10 @@ public interface MessageService {
 
     void createMessage(User sender,User recipient,String message, Chat chat);
 
-    Message getMessageBySender(User recipient);
+    Message getMessageBySender(User sender);
 
     Message getMessageByRecipient(User recipient);
 
-    Iterable<Message> getAllMessagesFromChat(Chat chat);
+    Iterable<Message> getAllMessagesFromChat(String sender,String recipient);
 
 }

@@ -1,6 +1,5 @@
 package com.nc.training.center.chat.repositories;
 
-import com.nc.training.center.chat.domains.Chat;
 import com.nc.training.center.chat.domains.Message;
 import com.nc.training.center.chat.domains.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +12,6 @@ public interface MessageRepository extends JpaRepository<Message,Long> {
 
     Message findBySender(User sender);
 
-    Iterable<Message> findAllByChat(Chat chat);
+    //Iterable<Message> findAllByChat(Chat chat);
 
 }

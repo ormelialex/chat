@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Page</title>
+</head>
+<body>
+<h1>====================</h1>
+<h1>This is Chat with <strong th:text="${recipient}"></strong></h1>
+<h1>====================</h1>
+<table th:if="${messages!=null}" border="1" bordercolor="black">
+    <tr>
+        <th colspan="3">All Messages</th>
+    </tr>
+    <tr>
+        <th>Sender</th>
+        <th>Message</th>
+        <th>Data and Time of send</th>
+    </tr>
+    <tr th:each="message:${messages}">
+        <td th:text="${message.getSender().getLogin()}" align="center"></td>
+        <td th:text="${message.getMsg()}" align="center"></td>
+        <td th:text="${message.getSendDate()}" align="center"></td>
+    </tr>
+</table>
+<h1>====================</h1>
+<a sec:authorize="isAuthenticated()" th:href="@{/home}">Home Page</a>
+</body>
+</html>

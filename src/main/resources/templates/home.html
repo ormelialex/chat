@@ -7,7 +7,7 @@
 <body>
 <h1>====================</h1>
 <h1>This is Home Page</h1>
-<div>Hello, <strong th:text="${lk.getUsername()}"></strong> !</div>
+<div th:if="${lk!=null}">Hello, <strong th:text="${lk}"></strong> !</div>
 <div th:if="${success}">
     Registration success.
 </div>
@@ -19,12 +19,13 @@
     </tr>
     <tr th:each="user:${users}">
         <td th:text="${user.getLogin()}" align="center"></td>
-        <!--<td> Кнопка написать сообщение
-            <form th:action="@{/privateChat}" method="post" onsubmit="return confirm('Подтвердить выполнение действия?');">
+        <td>
+            <a sec:authorize="isAuthenticated()" th:href="@{'/privateChat/{login}'(login=${user.getLogin()})}">Send Message</a>
+            <!--<form th:action="@{/privateChat}" method="post" onsubmit="return confirm('Подтвердить выполнение действия?');">
                 <input type="hidden" th:value="${order.getOrder_id()}" name="idOrder">
                 <input type="submit" value="Отмена бронирования">
-            </form>
-        </td>-->
+            </form>-->
+        </td>
     </tr>
 </table>
 <h1>====================</h1>

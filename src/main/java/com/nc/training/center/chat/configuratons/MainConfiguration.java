@@ -1,5 +1,6 @@
 package com.nc.training.center.chat.configuratons;
 
+import com.nc.training.center.chat.services.impl.UserDetailsServiceImpl;
 import com.nc.training.center.chat.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -23,6 +25,7 @@ import java.util.Collections;
 /**
  * в этом пакете лежат java конфиги для спринга
  */
+@EnableWebSecurity
 @Configuration
 public class MainConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
@@ -110,7 +113,10 @@ public class MainConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
     }
+
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
 
 }

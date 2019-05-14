@@ -4,16 +4,21 @@ import com.nc.training.center.chat.domains.Chat;
 import com.nc.training.center.chat.domains.Message;
 import com.nc.training.center.chat.domains.User;
 import com.nc.training.center.chat.repositories.MessageRepository;
+import com.nc.training.center.chat.repositories.UserRepository;
 import com.nc.training.center.chat.services.api.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class MessageServiceImpl implements MessageService {
     @Autowired
     private MessageRepository messageRepo;
+    @Autowired
+    private UserRepository userRepo;
     //@Autowired
     //private ChatRepository chatRepo;
 
@@ -44,8 +49,29 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Iterable<Message> getAllMessagesFromChat(Chat chat) {
-            return messageRepo.findAllByChat(chat);
+    public Iterable<Message> getAllMessagesFromChat(String senderMessage,String recipientMessage) {
+        /*
+        Message message1 = new Message();
+        message1.setSendDate(LocalDateTime.now());
+        message1.setRecipient(userRepo.findByLogin(recipientMessage));
+        message1.setSender(userRepo.findByLogin(senderMessage));
+        message1.setMsg("Hello");
+        message1.setChat(null);
+        messageRepo.save(message1);
+        */
+        User sender = userRepo.findByLogin(senderMessage);
+        User recipient = userRepo.findByLogin(recipientMessage);
+        List<Message> allMessages = new ArrayList<>();
+        allMessages = messageRepo.findAll();
+        List<Message> allMessagesFromChat = new ArrayList<>();
+        for (Message message: allMessages
+             ) { if((message.getSender().equals(sender)&&message.getRecipient().equals(recipient))||(message.getSender().equals(recipient)&&message.getRecipient().equals(sender))){
+                allMessagesFromChat.add(message);
+        }
+
+        }
+            return allMessagesFromChat;
     }
+
 
 }

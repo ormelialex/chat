@@ -50,11 +50,12 @@ public class UserController {
         return "home";
     }
 
+
     @GetMapping("/home")
     //@PreAuthorize("hasAuthority('USER')")
-    public String home(@AuthenticationPrincipal User activeUser, Model model){
+    public String home(@AuthenticationPrincipal org.springframework.security.core.userdetails.User activeUser, Model model){
         //UserDetailImpl user = (UserDetailImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("lk",activeUser);
+        model.addAttribute("lk",activeUser.getUsername());
         model.addAttribute("users",userService.getAllUsers());
         return "home";
     }
