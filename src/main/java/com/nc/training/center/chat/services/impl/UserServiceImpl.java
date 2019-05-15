@@ -42,17 +42,17 @@ public class UserServiceImpl implements UserService,UserDetailsService {
     }
 
     @Override
-    public void create(String login, String password, LocalDate birthday, byte age) {
-        if (userRepo.existsByLogin(login)) {
+    public void create(User user) {
+        if (userRepo.existsByLogin(user.getLogin())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
         User createUser = new User();
-        createUser.setLogin(login);
-        createUser.setAge(age);
-        createUser.setBirthday(birthday);
+        createUser.setLogin(user.getLogin());
+        createUser.setAge(user.getAge());
+        createUser.setBirthday(user.getBirthday());
         createUser.setRole(Role.USER);
         createUser.setRegistrationDay(LocalDate.now());
-        createUser.setPassword(bCryptPasswordEncoder.encode(password));
+        createUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepo.save(createUser);
     }
 
@@ -62,7 +62,8 @@ public class UserServiceImpl implements UserService,UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User Not Founded");
         }
-        return new UserDetailImpl(user);
+        //return new UserDetailImpl(user);
+        return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), user.getRoles());
     }
 
     public Iterable<User> getAllUsers(){

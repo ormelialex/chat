@@ -20,6 +20,7 @@ import java.util.List;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Setter(AccessLevel.NONE)
+    @Column(unique = true)
     private Long id;
     private String login;
     @Column(length = 60)
@@ -32,7 +33,7 @@ import java.util.List;
     /*@OneToMany(mappedBy="user")
     private Collection<Role> roles;*/
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role role;//Переделать на Set или List , котоыре SHOOT BADLY NON FUNZIONA
 
     public Collection<? extends GrantedAuthority> getRoles() {
         List<GrantedAuthority> list = new ArrayList<>();

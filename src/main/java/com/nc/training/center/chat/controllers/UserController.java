@@ -4,6 +4,7 @@ import com.nc.training.center.chat.domains.User;
 import com.nc.training.center.chat.services.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,15 +46,15 @@ public class UserController {
             model.addAttribute("user",user);
             return "registration";
         }
-        userService.create(user.getLogin(),user.getPassword(),user.getBirthday(),user.getAge());
+        userService.create(user);
         model.addAttribute("success","Вы успешно зарегистрировались!!!");
-        return "home";
+        return "index";
     }
 
 
     @GetMapping("/home")
     //@PreAuthorize("hasAuthority('USER')")
-    public String home(@AuthenticationPrincipal org.springframework.security.core.userdetails.User activeUser, Model model){
+    public String home(@AuthenticationPrincipal UserDetails activeUser, Model model){
         //UserDetailImpl user = (UserDetailImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("lk",activeUser.getUsername());
         model.addAttribute("users",userService.getAllUsers());

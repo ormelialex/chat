@@ -1,6 +1,5 @@
-package com.nc.training.center.chat.services.impl;
+package com.nc.training.center.chat.domains;
 
-import com.nc.training.center.chat.domains.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

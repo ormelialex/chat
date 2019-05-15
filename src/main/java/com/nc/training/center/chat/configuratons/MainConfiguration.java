@@ -1,6 +1,5 @@
 package com.nc.training.center.chat.configuratons;
 
-import com.nc.training.center.chat.services.impl.UserDetailsServiceImpl;
 import com.nc.training.center.chat.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -113,10 +112,7 @@ public class MainConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
     }
-
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
 
 }
