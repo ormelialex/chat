@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class ChatServiceImpl implements ChatService {
     @Autowired
@@ -15,7 +16,7 @@ public class ChatServiceImpl implements ChatService {
 
 
     @Override
-    public Chat getChatByUsers(List<User> users) {
+    public Chat getChatByUsers(Set<User> users) {
         return chatRepo.findByUsers(users);
     }
 }

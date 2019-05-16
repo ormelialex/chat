@@ -4,7 +4,7 @@ package com.nc.training.center.chat.domains;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,6 +17,6 @@ public class Chat {
     @Setter(AccessLevel.NONE)
     private Long id;
     private String title;
-    @ManyToMany
-    private List<User> users;
+    @ManyToMany(cascade = {CascadeType.ALL})
+    private Set<User> users;
 }

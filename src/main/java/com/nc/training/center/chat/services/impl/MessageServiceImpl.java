@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -22,8 +24,6 @@ public class MessageServiceImpl implements MessageService {
     private MessageRepository messageRepo;
     @Autowired
     private UserRepository userRepo;
-    //@Autowired
-    //private ChatRepository chatRepo;
 
     @Autowired
     public MessageServiceImpl(MessageRepository messageRepo) {
@@ -31,23 +31,23 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public void createMessage(User sender,User recipient,String message, Chat chat) {
+    public void createMessage(Message message) {
             Message createMessage = new Message();
-            Chat newChat = new Chat();
-            newChat.setTitle("Test");
-            newChat.setUsers(Arrays.asList(sender,recipient));
-            Chat chatFromBD=chatRepo.findByUsers(Arrays.asList(sender,recipient));
+            Set<User> usersSet = new HashSet<>(Arrays.asList(message.getSender(),message.getRecipient()));
+            Chat chatFromBD=chatRepo.findByUsers(usersSet);
             if(chatFromBD!=null){
                 createMessage.setChat(chatFromBD);
             }else{
+                Chat newChat = new Chat();
+                newChat.setUsers(usersSet);
+                newChat.setTitle("PrivateChat");
                 createMessage.setChat(newChat);
             }
-            createMessage.setChat(chat);
-            createMessage.setMsg(message);
+            createMessage.setMsg(message.getMsg());
             createMessage.setSendDate(LocalDateTime.now());
-            createMessage.setSender(sender);
-            createMessage.setRecipient(recipient);
-            messageRepo.saveAndFlush(createMessage);
+            createMessage.setSender(message.getSender());
+            createMessage.setRecipient(message.getSender());
+            messageRepo.save(createMessage);
     }
 
     @Override
@@ -61,17 +61,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<Message> getAllMessagesFromPrivateChat(List<User> users) {
-/*        Chat chat = new Chat();
-        chat.setTitle("Test");
-        chat.setUsers(users);
-        Message message1 = new Message();
-        message1.setSendDate(LocalDateTime.now());
-        message1.setRecipient(userRepo.findByLogin(users.get(0).getLogin()));
-        message1.setSender(userRepo.findByLogin(users.get(1).getLogin()));
-        message1.setMsg("Hello");
-        message1.setChat(null);
-        messageRepo.save(message1);*/
+    public List<Message> getAllMessagesFromPrivateChat(Set<User> users) {
         Chat chatFromBD = chatRepo.findByUsers(users);
         List<Message> allMessages = messageRepo.findAllByChat(chatFromBD);
         return allMessages;

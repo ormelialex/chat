@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,7 +21,7 @@ import java.util.List;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Setter(AccessLevel.NONE)
-    @Column(unique = true)
+    @Column(unique = true,name = "user_id")
     private Long id;
     private String login;
     @Column(length = 60)
@@ -30,10 +31,12 @@ import java.util.List;
     private LocalDate birthday;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate registrationDay;
-    /*@OneToMany(mappedBy="user")
-    private Collection<Role> roles;*/
+    @ElementCollection(targetClass = Role.class)
+    @CollectionTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
-    private Role role;//Переделать на Set или List , котоыре SHOOT BADLY NON FUNZIONA
+    @Column(name = "role_id")
+    Set<Role> role;
 
     public Collection<? extends GrantedAuthority> getRoles() {
         List<GrantedAuthority> list = new ArrayList<>();

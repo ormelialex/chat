@@ -23,6 +23,15 @@
         <td th:text="${message.getSendDate()}" align="center"></td>
     </tr>
 </table>
+
+<h1>====================</h1>
+<form th:action="@{'/privateChat/{login}'(login=${sender})}" method="post" class="ui-form"><br>
+<div class="input-message">
+    <input type="text" name="message" id="message" autocomplete="off"
+           placeholder="Type a message..."/>
+</div>
+<p><input type="submit" value="Send"></p>
+</form>
 <h1>====================</h1>
 <a sec:authorize="isAuthenticated()" th:href="@{/home}">Home Page</a>
 </body>

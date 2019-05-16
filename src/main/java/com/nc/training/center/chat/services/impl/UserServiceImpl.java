@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.util.EnumSet;
 
 @Service
 public class UserServiceImpl implements UserService,UserDetailsService {
@@ -30,8 +31,6 @@ public class UserServiceImpl implements UserService,UserDetailsService {
 
     @Override
     public User findByUserNameAndPassword(String login, String password) {
-        //PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        //String encPass = passwordEncoder.encode(password);
         String encPass = bCryptPasswordEncoder.encode(password);
         return userRepo.findByLoginAndPassword(login, encPass);
     }
@@ -50,7 +49,7 @@ public class UserServiceImpl implements UserService,UserDetailsService {
         createUser.setLogin(user.getLogin());
         createUser.setAge(user.getAge());
         createUser.setBirthday(user.getBirthday());
-        createUser.setRole(Role.USER);
+        createUser.setRole(EnumSet.of(Role.USER));
         createUser.setRegistrationDay(LocalDate.now());
         createUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepo.save(createUser);

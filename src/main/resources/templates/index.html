@@ -12,11 +12,8 @@
 <div class="links">
 <a sec:authorize="isAuthenticated()" th:href="@{/home}">Home Page>></a><br>
 <a sec:authorize="isAnonymous()"  th:href="@{/login}">Log In>></a><br>
-<a th:href="@{/registration}">Registry>></a>
+<a sec:authorize="isAnonymous()" th:href="@{/registration}">Registry>></a>
 </div>
 <h1>=========================</h1>
-<div th:if="${success}">
-    Registration success.
-</div>
 </body>
 </html>
