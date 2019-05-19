@@ -23,6 +23,7 @@ import java.util.Set;
     @Setter(AccessLevel.NONE)
     @Column(unique = true,name = "user_id")
     private Long id;
+    @Column(unique = true)
     private String login;
     @Column(length = 60)
     private String password;

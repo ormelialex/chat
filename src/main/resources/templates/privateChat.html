@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>====================</h1>
-<h1>This is Chat with <strong th:text="${recipient}"></strong></h1>
+<h1>This is Chat with Title<strong th:text="${chat.getTitle()}"></strong></h1>
 <h1>====================</h1>
 <table th:if="${messages!=null}" border="1" bordercolor="black">
     <tr>
@@ -25,7 +25,7 @@
 </table>
 
 <h1>====================</h1>
-<form th:action="@{'/privateChat/{login}'(login=${sender})}" method="post" class="ui-form"><br>
+<form th:action="@{'/privateChat/{chat_id}'(chat_id=${chat.getId().toString()})}" method="post" class="ui-form"><br>
 <div class="input-message">
     <input type="text" name="message" id="message" autocomplete="off"
            placeholder="Type a message..."/>

@@ -1,6 +1,7 @@
 package com.nc.training.center.chat.controllers;
 
 import com.nc.training.center.chat.domains.User;
+import com.nc.training.center.chat.services.api.ChatService;
 import com.nc.training.center.chat.services.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class UserController {
-/*    @Autowired
-    UserRepository userRepo;*/
+    @Autowired
+    ChatService chatService;
     @Autowired
     UserService userService;
     @Autowired
@@ -45,7 +46,7 @@ public class UserController {
             model.addAttribute("message","true");
             model.addAttribute("user",user);
             return "registration";
-        }
+        }/*обработать исключение*/
         userService.create(user);
         model.addAttribute("success","Вы успешно зарегистрировались!!!");
         return "index";
@@ -55,8 +56,8 @@ public class UserController {
     @GetMapping("/home")
     //@PreAuthorize("hasAuthority('USER')")
     public String home(@AuthenticationPrincipal UserDetails activeUser, Model model){
-        //UserDetailImpl user = (UserDetailImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("lk",activeUser.getUsername());
+        model.addAttribute("chats",chatService.getChatsWithUser(userService.getUserByLogin(activeUser.getUsername())));
         model.addAttribute("users",userService.getAllUsers());
         return "home";
     }

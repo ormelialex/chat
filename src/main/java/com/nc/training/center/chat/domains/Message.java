@@ -17,9 +17,7 @@ public class Message {
     private String msg;
     @OneToOne
     private User sender;
-    @OneToOne
-    private User recipient;
     private LocalDateTime sendDate;
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST})//Maybe +  CascadeType.MERGE and it isn't a fact, that's i'm right
     private Chat chat;
 }

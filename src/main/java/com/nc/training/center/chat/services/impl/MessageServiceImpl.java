@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -31,22 +28,13 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public void createMessage(Message message) {
+    public void createMessage(String message,String chat_id,User sender) {
             Message createMessage = new Message();
-            Set<User> usersSet = new HashSet<>(Arrays.asList(message.getSender(),message.getRecipient()));
-            Chat chatFromBD=chatRepo.findByUsers(usersSet);
-            if(chatFromBD!=null){
-                createMessage.setChat(chatFromBD);
-            }else{
-                Chat newChat = new Chat();
-                newChat.setUsers(usersSet);
-                newChat.setTitle("PrivateChat");
-                createMessage.setChat(newChat);
-            }
-            createMessage.setMsg(message.getMsg());
+            Chat chat =chatRepo.findByChatId(Long.parseLong(chat_id));
+            createMessage.setMsg(message);
             createMessage.setSendDate(LocalDateTime.now());
-            createMessage.setSender(message.getSender());
-            createMessage.setRecipient(message.getSender());
+            createMessage.setSender(sender);
+            createMessage.setChat(chat);
             messageRepo.save(createMessage);
     }
 
@@ -56,13 +44,8 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Message getMessageByRecipient(User recipient) {
-        return messageRepo.findByRecipient(recipient);
-    }
-
-    @Override
-    public List<Message> getAllMessagesFromPrivateChat(Set<User> users) {
-        Chat chatFromBD = chatRepo.findByUsers(users);
+    public List<Message> getAllMessagesFromPrivateChat(String chat_id) {
+        Chat chatFromBD = chatRepo.findByChatId(Long.parseLong(chat_id));
         List<Message> allMessages = messageRepo.findAllByChat(chatFromBD);
         return allMessages;
     }
