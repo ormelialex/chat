@@ -1,10 +1,10 @@
 package com.nc.training.center.chat.controllers;
 
+import com.nc.training.center.chat.domains.CheckBox;
 import com.nc.training.center.chat.domains.User;
 import com.nc.training.center.chat.services.api.ChatService;
 import com.nc.training.center.chat.services.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -42,32 +42,22 @@ public class UserController {
 
     @PostMapping("/registration")
     public String addUser(User user, Model model){
-        boolean exc = false;
         User userFromDb=userService.getUserByLogin(user.getLogin());
         if(userFromDb!=null){
             model.addAttribute("message","true");
             model.addAttribute("user",user);
             return "registration";
-        }/*обработать исключение*/
-        try {
-            userService.create(user);
         }
-        catch(DuplicateKeyException ex){
-            exc = true;
-        }
-        if(exc){
-            model.addAttribute("message","true");
-            return "registration";
-        }else {
-            model.addAttribute("success", "Вы успешно зарегистрировались!!!");
-            return "index";
-        }
+        userService.create(user);
+        model.addAttribute("success", "Вы успешно зарегистрировались!!!");
+        return "index";
     }
 
 
     @GetMapping("/home")
     //@PreAuthorize("hasAuthority('USER')")
     public String home(@AuthenticationPrincipal UserDetails activeUser, Model model){
+        model.addAttribute("items", new CheckBox());
         model.addAttribute("lk",activeUser.getUsername());
         model.addAttribute("chats",chatService.getChatsWithUser(userService.getUserByLogin(activeUser.getUsername())));
         model.addAttribute("users",userService.getAllUsers());

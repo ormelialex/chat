@@ -1,4 +1,4 @@
-package com.nc.training.center.chat.configuratons;
+package com.nc.training.center.chat.controllers;
 
 
 import org.springframework.security.authentication.LockedException;

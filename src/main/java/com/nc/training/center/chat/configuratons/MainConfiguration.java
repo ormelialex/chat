@@ -1,5 +1,6 @@
 package com.nc.training.center.chat.configuratons;
 
+import com.nc.training.center.chat.controllers.CustomAuthenticationFailureHandler;
 import com.nc.training.center.chat.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

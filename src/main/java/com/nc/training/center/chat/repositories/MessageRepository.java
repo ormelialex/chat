@@ -11,8 +11,6 @@ import java.util.List;
 @Repository
 public interface MessageRepository extends JpaRepository<Message,Long> {
 
-    Message findByRecipient(User recipient);
-
     Message findBySender(User sender);
 
     List<Message> findAllByChat(Chat chat);

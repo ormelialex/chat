@@ -30,7 +30,7 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public void createMessage(String message,String chat_id,User sender) {
             Message createMessage = new Message();
-            Chat chat =chatRepo.findByChatId(Long.parseLong(chat_id));
+            Chat chat =chatRepo.findChatById(Long.parseLong(chat_id));
             createMessage.setMsg(message);
             createMessage.setSendDate(LocalDateTime.now());
             createMessage.setSender(sender);
@@ -45,7 +45,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<Message> getAllMessagesFromPrivateChat(String chat_id) {
-        Chat chatFromBD = chatRepo.findByChatId(Long.parseLong(chat_id));
+        Chat chatFromBD = chatRepo.findChatById(Long.parseLong(chat_id));
         List<Message> allMessages = messageRepo.findAllByChat(chatFromBD);
         return allMessages;
     }

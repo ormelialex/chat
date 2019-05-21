@@ -21,22 +21,24 @@
     </tr>
 </table>
 <h1>====================</h1>
-<form th:action="@{/createChat}" method="post">
+<form th:action="@{/createChat}" th:object="${items}" method="post">
     <div class="input-title">
         <input type="text" name="title" id="title" autocomplete="off"/>
     </div>
-    <div><table> Choose Users: <!--IDK how to do checkboxes-->
+    <div><table> Choose Users:
         <tr>
             <th colspan="2">All Users</th>
         </tr>
         <tr th:each="user:${users}">
-            <td th:text="${user.getLogin()}" align="center"></td><!--WTF?!-->
+            <td th:text="${user.getLogin()}" align="center"></td>
             <td>
+                <!--<input type="checkbox" checked ><label>Выбор 1</label>-->
+                <input type="checkbox" th:field="*{checkedItems}" th:value="${user.getLogin()}" />
                 <!--Here will be checkbox-->
             </td>
         </tr>
     </table></div>
-    <div><input type="submit" value="Sign In"/></div>
+    <div><input type="submit" value="Create Chat"/></div>
 </form>
 <h1>====================</h1>
 <a sec:authorize="isAuthenticated()" th:href="@{/logout}">Log out</a>

@@ -14,5 +14,5 @@ public interface ChatService {
 
     Chat getChatById(Long Id);
 
-    void createChat(String title, Set<User> users);
+    void createChat(String title, List<String> users);
 }
